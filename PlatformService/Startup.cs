@@ -31,10 +31,13 @@ namespace PlatformService
                 opt.UseInMemoryDatabase("InMem"));
             
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PlatformService", Version = "v1" });
             });
+
+            services.AddScoped<IPlatformRepo, PlatformRepo>();
             
         }
 
@@ -57,6 +60,9 @@ namespace PlatformService
             {
                 endpoints.MapControllers();
             });
+            
+            // 
+            PrepDb.PrepPopulation(app);
         }
     }
 }
